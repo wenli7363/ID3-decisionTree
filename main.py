@@ -20,6 +20,44 @@ def read_dataset(filename):
     return result
 
 
+# -----------------------------------------------------------------------
+def classify(inputTree, featLabels, testVec):
+    """
+    输入：决策树，分类标签，测试数据
+    输出：决策结果
+    描述：跑决策树
+    """
+    firstStr = list(inputTree.keys())[0]  # 取出决策树根节点
+    value = float(firstStr[4:])
+    secondDict = inputTree[firstStr]       # 取出下一层所有分支
+    featIndex = featLabels.index(firstStr[:3]) # 求根节点属性，在属性集的下标
+    classLabel = 0
+    for key in secondDict.keys():  # 遍历下一层分支{属性1：{下一层子节点}，属性2：{下一层子节点}}
+        if key == '小于':
+            if testVec[featIndex] <= value: # 如果该测试集的属性与分支的第二层属性匹配上
+                if type(secondDict[key]).__name__ == 'dict': # 如果匹配上的第二层属性的下一层还是字典（说明还能再分支）
+                    classLabel = classify(secondDict[key], featLabels, testVec)  # 递归
+                else:   # 不能继续分支，是叶子节点
+                    classLabel = secondDict[key]
+        if key == '大于':
+            if testVec[featIndex] > value: # 如果该测试集的属性与分支的第二层属性匹配上
+                if type(secondDict[key]).__name__ == 'dict': # 如果匹配上的第二层属性的下一层还是字典（说明还能再分支）
+                    classLabel = classify(secondDict[key], featLabels, testVec)  # 递归
+                else:   # 不能继续分支，是叶子节点
+                    classLabel = secondDict[key]
+    return classLabel
+
+def classifytest(inputTree, featLabels, testDataSet):
+    """
+    输入：决策树，分类标签，测试数据集
+    输出：决策结果
+    描述：跑决策树
+    """
+    classLabelAll = []
+    for testVec in testDataSet:
+        classLabelAll.append(classify(inputTree, featLabels, testVec))
+    return classLabelAll
+
 def majorCnt(labels):
     labelCount = dict()   # 创建一个字典，记录每个类别的样本数
     for value in labels:
@@ -126,7 +164,7 @@ def TreeGenerate(dataset:list, Attributes):
     #     return majorCnt(labels)
 
     bestFeature,BestMid = chooseBestFeature(dataset) # 从样本集中选最好的属性,以及当前属性在某点的最优二分
-    bestFeatureAttr = Attributes[bestFeature] +"<{} ?".format(BestMid)
+    bestFeatureAttr = Attributes[bestFeature] +"<{}".format(BestMid)
     myTree = {bestFeatureAttr:{}}
 
     # del(Attributes[bestFeature])  # 删掉属性集中用过的属性
@@ -148,6 +186,17 @@ def TreeGenerate(dataset:list, Attributes):
         myTree[bestFeatureAttr]['大于'] = TreeGenerate(greatDataSet,Attributes)
     return myTree
 
+def calCorrectRate(testset,classLabelAll):
+    realLabel = []
+    correct = 0
+    for item in testset:
+        realLabel.append(item[-1])
+    for i in range(len(realLabel)):
+        if realLabel[i] == classLabelAll[i]:
+            correct += 1
+
+    return correct/float(len(realLabel))
+
 
 if __name__ == '__main__':
     filename="./traindata.txt"
@@ -156,5 +205,8 @@ if __name__ == '__main__':
     Attributes = ['属性1','属性2','属性3','属性4']
     myTree = TreeGenerate(dataset,Attributes)
     print(myTree)
-    treeplot.ID3_Tree(myTree)
-
+    # treeplot.ID3_Tree(myTree)
+    testset = read_dataset("./testdata.txt")
+    classLabelAll = classifytest(myTree,Attributes,testset) # 测试集通过决策树的分类标签
+    result = calCorrectRate(testset,classLabelAll)
+    print(result)
