@@ -167,17 +167,6 @@ def TreeGenerate(dataset:list, Attributes):
     bestFeatureAttr = Attributes[bestFeature] +"<{}".format(BestMid)
     myTree = {bestFeatureAttr:{}}
 
-    # del(Attributes[bestFeature])  # 删掉属性集中用过的属性
-    # 下面这个适合离散属性，本次为连续值，只作二分
-    # featValue = [x[bestFeature] for x in dataset] # 最好属性的属性值
-    # uniqueVal = set(featValue) # 去重，就能得到节点在这一属性上所有的分支的属性值（离散的条件下）
-
-    #递归的构造子树
-    # for value in uniqueVal:
-    #     subAttributes = Attributes[:] # 子属性集合
-    #     subDataset = splitDataSet(dataset,bestFeature,value)  # 输入数据集，获得数据集中，在bestFeature上取值为value的样本子集
-    #     myTree[bestFeatureAttr][value] = TreeGenerate(subDataset,subAttributes)
-
     # left sub tree  value < x; right subTree is value >x
     smallDataSet,greatDataSet = splitDataSet(dataset,bestFeature,BestMid)
     if len(smallDataSet) != 0:
@@ -205,8 +194,10 @@ if __name__ == '__main__':
     Attributes = ['属性1','属性2','属性3','属性4']
     myTree = TreeGenerate(dataset,Attributes)
     print(myTree)
-    # treeplot.ID3_Tree(myTree)
+
     testset = read_dataset("./testdata.txt")
     classLabelAll = classifytest(myTree,Attributes,testset) # 测试集通过决策树的分类标签
     result = calCorrectRate(testset,classLabelAll)
     print(result)
+
+    treeplot.ID3_Tree(myTree)
