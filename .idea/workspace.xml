@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c4fd62c-ed71-43b5-8a3a-03e176733ffe" name="变更" comment="完成实验：构造决策树+测试集验证" />
+    <list default="true" id="0c4fd62c-ed71-43b5-8a3a-03e176733ffe" name="变更" comment="完成：决策树+测试集+限定深度">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +60,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="D:\Python3.10.1\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -118,6 +121,7 @@
       <workItem from="1669789660124" duration="1109000" />
       <workItem from="1669795298284" duration="3235000" />
       <workItem from="1670209555552" duration="12237000" />
+      <workItem from="1670231735107" duration="148000" />
     </task>
     <task id="LOCAL-00001" summary="成功构建了剪枝树">
       <created>1669820736779</created>
@@ -145,7 +149,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="成功构建了剪枝树" />
-    <option name="LAST_COMMIT_MESSAGE" value="成功构建了剪枝树" />
+    <MESSAGE value="完成：决策树+测试集+限定深度" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成：决策树+测试集+限定深度" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
