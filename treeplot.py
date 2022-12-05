@@ -1,6 +1,8 @@
 #coding:utf-8
+import matplotlib
 import matplotlib.pyplot as plt
 from pylab import mpl
+matplotlib.use('TKAgg')
 mpl.rcParams['font.sans-serif'] = ['SimHei']
 decisionNode = dict(boxstyle="sawtooth", fc="0.8")
 leafNode = dict(boxstyle="round4", fc="0.8")
